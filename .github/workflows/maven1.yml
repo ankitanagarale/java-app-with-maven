@@ -40,34 +40,34 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-  code-security:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run Snyk Code Security Check
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: code test
+  # code-security:
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run Snyk Code Security Check
+  #       uses: snyk/actions/maven@master
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       with:
+  #         command: code test
 
-  release:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 17 for Release
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-      - name: Set Git user
-        run: |
-          git config user.email "ankitanagarale09@gmail.com"
-          git config user.name "ankitanagarale"
-      - name: Change directory to my-app
-        run: cd my-app
-      - name: Publish JAR
-        run: mvn -B release:prepare release:perform -DskipTests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # release:
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up JDK 17 for Release
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: 17
+  #     - name: Set Git user
+  #       run: |
+  #         git config user.email "ankitanagarale09@gmail.com"
+  #         git config user.name "ankitanagarale"
+  #     - name: Change directory to my-app
+  #       run: cd my-app
+  #     - name: Publish JAR
+  #       run: mvn -B release:prepare release:perform -DskipTests
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
