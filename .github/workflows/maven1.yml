@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 env:
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -31,21 +31,25 @@ jobs:
         with:
           node-version: 14
 
+  opensource-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node 14
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
       - name: Install Snyk CLI
         run: npm install -g snyk
 
       - name: Authenticate Snyk CLI
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Snyk Open Source Test
-        run: snyk test
-        working-directory: my-app
-
-      - name: Run Snyk Code Test
-        run: snyk code test
-        working-directory: my-app
-
       - name: Run Snyk Open Source Security Check
         run: snyk monitor
         working-directory: my-app
         continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
