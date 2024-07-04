@@ -31,26 +31,26 @@ jobs:
         with:
           node-version: 14
 
-  opensource-security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run Snyk Open Source Security Check
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-  # code-security:
-  #   needs: [build]
+  # opensource-security:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v2
-  #     - name: Run Snyk Code Security Check
+  #     - name: Run Snyk Open Source Security Check
   #       uses: snyk/actions/maven@master
   #       env:
   #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #       with:
-  #         command: code test
+
+  code-security:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Snyk Code Security Check
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
 
   # release:
   #   needs: [build]
