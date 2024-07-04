@@ -36,9 +36,10 @@ jobs:
       with:
        node-version: 14
        
-    - name: install Snyk CLI
-      run: npm install -g snyk
-    - name: run Snyk Open Source Test
+    - name: Run Snyk Open Source Test
       run: snyk test
-    - name: run Snyk Code Test
+      working-directory: my-app
+
+    - name: Run Snyk Code Test
       run: snyk code test
+      working-directory: my-app
