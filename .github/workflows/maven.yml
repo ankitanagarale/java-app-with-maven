@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  
 jobs:
   build:
 
@@ -27,3 +30,15 @@ jobs:
     - name: Build with Maven
       run: mvn -B package
       working-directory: my-app
+
+    - name: Set up Node 14
+      uses: actions/setup-node@v3
+      with:
+       node-version: 14
+       
+    - name: install Snyk CLI
+      run: npm install -g snyk
+    - name: run Snyk Open Source Test
+      run: snyk test
+    - name: run Snyk Code Test
+      run: snyk code test
